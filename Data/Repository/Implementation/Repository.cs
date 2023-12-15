@@ -26,9 +26,9 @@ namespace MyWatchShop.Data.Repository.Implementation
             return _ctx.SaveChangesAsync();
         }
 
-        public async Task<IQueryable<T>> GetAll<T>() where T : class
+        public async Task<IList<T>> GetAll<T>() where T : class
         {
-            return _ctx.Set<T>().AsQueryable();
+            return _ctx.Set<T>().ToList();
         }
 
         public async Task<T> GetById<T>(string id) where T : class

@@ -1,4 +1,5 @@
 ﻿using MyWatchShop.Models.DTOS;
+using MyWatchShop.Models.Entity;
 
 namespace MyWatchShop.Services.Interfaces
 {
@@ -6,8 +7,8 @@ namespace MyWatchShop.Services.Interfaces
     {
         public Task<int> AddProduct(AddProductViewModel model);
         public Task<int> UpdateProduct(AddProductViewModel model);
-        public Task<IList<AddProductViewModel>> GetAllProduct(AddProductViewModel model);
-        public Task<AddProductViewModel> GetProduct(string id);
+        public Task<IList<Product>> GetAllProduct(AddProductViewModel model);
+        public Task<Product> GetProduct(string id);
         public Task<int> DeleteProduct(string id);
     }
 }

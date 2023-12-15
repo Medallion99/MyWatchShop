@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using MyWatchShop.Data;
 using MyWatchShop.Data.Repository.Implementation;
 using MyWatchShop.Data.Repository.Interface;
+using MyWatchShop.Services.Implementation;
+using MyWatchShop.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IRepository, Repository >();
+builder.Services.AddScoped<IProductService, ProductService >();
 
 var app = builder.Build();
 

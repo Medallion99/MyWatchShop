@@ -66,17 +66,18 @@ namespace MyWatchShop.Services.Implementation
             }
         }
 
-        public Task<IList<AddProductViewModel>> GetAllProduct(AddProductViewModel model)
+        public Task<IList<Product>> GetAllProduct(AddProductViewModel model)
         {
             var productsToReturn = _repository.GetAll<Product>();
+            return productsToReturn;
 
-            
-            throw new NotImplementedException();
         }
 
-        public Task<AddProductViewModel> GetProduct(string id)
+        public Task<Product> GetProduct(string id)
         {
-            throw new NotImplementedException();
+            var getBook = _repository.GetById<Product>(id);
+            return getBook;
+
         }
 
         public Task<int> UpdateProduct(AddProductViewModel model)
