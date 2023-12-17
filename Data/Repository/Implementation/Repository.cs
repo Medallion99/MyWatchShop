@@ -28,7 +28,8 @@ namespace MyWatchShop.Data.Repository.Implementation
 
         public async Task<IList<T>> GetAll<T>() where T : class
         {
-            return _ctx.Set<T>().ToList();
+           var result = _ctx.Set<T>().ToList();
+            return result;
         }
 
         public async Task<T> GetById<T>(string id) where T : class

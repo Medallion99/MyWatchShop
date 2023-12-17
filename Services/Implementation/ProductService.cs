@@ -2,6 +2,7 @@
 using MyWatchShop.Data.Repository.Interface;
 using MyWatchShop.Models.DTOS;
 using MyWatchShop.Models.Entity;
+using MyWatchShop.Models.ViewModels;
 using MyWatchShop.Services.Interfaces;
 
 namespace MyWatchShop.Services.Implementation
@@ -23,7 +24,8 @@ namespace MyWatchShop.Services.Implementation
             {
                 ProductName = model.ProductName,
                 ProductDescription = model.ProductDescription,
-                Price = model.Price,
+                OldPrice = model.OldPrice,
+                NewPrice = model.NewPrice,
                 ImageUrl = model.ImageUrl,
             };
 
@@ -66,11 +68,12 @@ namespace MyWatchShop.Services.Implementation
             }
         }
 
-        public Task<IList<Product>> GetAllProduct(AddProductViewModel model)
+        public async Task<IList<Product>> GetAllProduct()
         {
-            var productsToReturn = _repository.GetAll<Product>();
-            return productsToReturn;
+            var productsToReturn = await _repository.GetAll<Product>();
 
+            
+            return productsToReturn;
         }
 
         public Task<Product> GetProduct(string id)

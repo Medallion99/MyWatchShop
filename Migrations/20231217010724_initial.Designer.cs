@@ -12,7 +12,7 @@ using MyWatchShop.Data;
 namespace MyWatchShop.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20231213023128_initial")]
+    [Migration("20231217010724_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -251,7 +251,14 @@ namespace MyWatchShop.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("Price")
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("NewPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("OldPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ProductDescription")
@@ -261,6 +268,9 @@ namespace MyWatchShop.Migrations
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Stars")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
