@@ -14,6 +14,7 @@ builder.Services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(bui
 
 builder.Services.AddScoped<IRepository, Repository >();
 builder.Services.AddScoped<IProductService, ProductService >();
+builder.Services.AddScoped<IAdminServices, AdminServices >();
 
 var app = builder.Build();
 
@@ -34,6 +35,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Product}/{action=BestSeller}/{id?}");
 
 app.Run();

@@ -6,80 +6,59 @@ using MyWatchShop.Services.Interfaces;
 
 namespace MyWatchShop.Services.Implementation
 {
-    public class ProductService : IProductService
+    public class AdminServices : IAdminServices
     {
-        private readonly IRepository _repository;
         private readonly ShopDbContext _ctx;
+        private readonly IRepository _repository;
 
-        public ProductService(IRepository repository, ShopDbContext ctx)
+        public AdminServices(ShopDbContext ctx, IRepository repository)
         {
-            this._repository = repository;
             this._ctx = ctx;
+            this._repository = repository;
         }
-        public Task<int> AddProduct(AddProductViewModel model)
+        public async Task<int> AddProduct(AddProductViewModel model)
         {
-
-            var product = new Product
+            var product = new Product()
             {
                 ProductName = model.ProductName,
                 ProductDescription = model.ProductDescription,
                 OldPrice = model.OldPrice,
                 NewPrice = model.NewPrice,
                 ImageUrl = model.ImageUrl,
-                Stars = model.Stars,
             };
 
-            var addProduct = _repository.Add(product);
-
-            if (addProduct == null)
-            {
-                throw new NullReferenceException("Product could not be added");
-            }
-
-            return addProduct;
+            var result = await _repository.Add(product);
+            return result;
         }
 
         public Task<int> DeleteProduct(string id)
         {
+            var result = _ctx.Products.Where(s => s.Id == id).FirstOrDefault();
 
-            try
+            if (result == null)
             {
-                var productToDelete = _ctx.Products.FirstOrDefault(s => s.Id == id);
-
-               
-                if (productToDelete == null)
-                {
-                    throw new Exception("No suchh product exists");
-                }
-
-                var delete = _repository.Delete(productToDelete);
-
-                if (delete == null)
-                {
-                    throw new Exception("Sorry Something Went Wrong");
-                }
-
-                return delete;
-
+                throw new Exception("ID not found");
             }
-            catch (Exception ex)
-            {
-                throw new Exception ("Sorry, something went wrong");
-            }
+            var resultToReturn = _repository.Delete(result);
+            return resultToReturn;
         }
 
         public async Task<IList<Product>> GetAllProduct()
         {
             var productsToReturn = await _repository.GetAll<Product>();
-            
+
             return productsToReturn;
         }
 
         public Task<Product> GetProduct(string id)
         {
-            var getBook = _repository.GetById<Product>(id);
-            return getBook;
+            var result = _ctx.Products.Where(_ => _.Id == id).FirstOrDefault();
 
+            if (result == null)
+            {
+                throw new Exception("Invalid Id");
+            }
+            return _repository.GetById<Product>(id);
         }
 
         public Task<int> UpdateProduct(AddProductViewModel model)

@@ -1,4 +1,4 @@
-﻿namespace MyWatchShop.Models.DTOS
+﻿namespace MyWatchShop.Models.ViewModels
 {
     public class AuthViewModel
     {

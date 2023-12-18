@@ -1,0 +1,32 @@
+﻿@model AddProductViewModel
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create Product</h2>
+            </hr>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ProductName">Product Name</label>
+            <input asp-for="ProductName" type="text" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ProductDescription">Product Description</label>
+            <input asp-for="ProductDescription" type="text" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="OldPrice">Old Price</label>
+            <input asp-for="OldPrice" type="text" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="NewPrice" >New-Price</label>
+            <input asp-for="NewPrice" type="text" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="ImageUrl">Image Url</label>
+            <input asp-for="ImageUrl" type="text" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Add</button>
+    </div>
+</form>
+

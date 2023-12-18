@@ -1,4 +1,4 @@
-﻿namespace MyWatchShop.Models.DTOS
+﻿namespace MyWatchShop.Models.ViewModels
 {
     public class AddProductViewModel
     {
@@ -8,6 +8,7 @@
         public decimal OldPrice { get; set; }
         public decimal NewPrice { get; set; }
         public string ImageUrl { get; set; } = string.Empty;
+        public int Stars { get; set; }
 
         
     }

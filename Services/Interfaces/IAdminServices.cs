@@ -3,7 +3,7 @@ using MyWatchShop.Models.Entity;
 
 namespace MyWatchShop.Services.Interfaces
 {
-    public interface IProductService
+    public interface IAdminServices
     {
         public Task<int> AddProduct(AddProductViewModel model);
         public Task<int> UpdateProduct(AddProductViewModel model);
