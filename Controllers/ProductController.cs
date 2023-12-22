@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyWatchShop.Models.ViewModels;
 using MyWatchShop.Services.Interfaces;
 
@@ -12,6 +13,7 @@ namespace MyWatchShop.Controllers
         {
             this._productService = productService;
         }
+
         public async Task<IActionResult> BestSeller()
         {
             var viewToReturn = await _productService.GetAllProduct();
@@ -35,6 +37,8 @@ namespace MyWatchShop.Controllers
                     ImageUrl = product.ImageUrl,
                     Stars = product.Stars,
                 };
+
+                //var productToRetrieve = viewToReturn.Where(x => x.DateAdded > DateTime.Now.AddDays(-7));
 
                 homeView.BestSeller.ProductList.Add(productViewModel);
             }

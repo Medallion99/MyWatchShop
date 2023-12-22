@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyWatchShop.Models.ViewModels;
 using MyWatchShop.Services.Interfaces;
 
@@ -18,12 +19,14 @@ namespace MyWatchShop.Controllers
         //    return View(result);
         //}
         [HttpGet]
+        [Authorize]
         public IActionResult Add ()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddProductViewModel model)
         {
             var result = _adminServices.AddProduct(model);

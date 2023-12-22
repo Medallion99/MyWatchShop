@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Ruiz - Watch Store HTML Template</title>
+    <title>Medallion Watch Store</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -208,11 +208,18 @@
                                         </li>
 
                                         <li>
-                                            <a href="#">Pages <i class="fa fa-angle-down"></i></a>
+                                            <a href="#">Account<i class="fa fa-angle-down"></i></a>
                                             <ul class="sub-menu">
                                                 <li><a href="frequently-questions.html">FAQ</a></li>
                                                 <li><a href="my-account.html">My Account</a></li>
-                                                <li><a href="login-register.html">login &amp; register</a></li>
+                                                @if (!signInManager.IsSignedIn(User))
+                                                {
+                                                    <li><a asp-action="Register" asp-controller="Account">login &amp; register</a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
+                                                }
                                             </ul>
                                         </li>
                                         <li><a href="about-us.html">About Us</a></li>

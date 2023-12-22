@@ -1,0 +1,59 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register-Page";
+}
+
+<div>Register Account</div>
+
+<div class="main-content-wrap section-ptb lagin-and-register-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-md-12 m-auto">
+                <div class="login-register-wrapper">
+                    <!-- login-register-tab-list start -->
+                    <div class="login-register-tab-list nav">
+                        <a asp-controller="Account" asp-action="Register">
+                            <h4> Register </h4>
+                        </a>
+                        <a href="/Account/Login">
+                            <h4> Login </h4>
+                        </a>
+                    </div>
+                    <!-- login-register-tab-list end -->
+                    <div class="tab-content">
+
+                        <div id="lg1" class="tab-pane active">
+                            <div class="login-form-container">
+                                <div class="login-register-form">
+                                    <form asp-controller="Account" asp-action="Register" method="post">
+                                        <div class="login-input-box">
+                                            <input asp-for="FirstName" placeholder="User Name">
+                                            <input asp-for="LastName" placeholder="Last Name">
+                                            <input asp-for="Email" placeholder="Email" type="email">
+                                            <input asp-for="Password" placeholder="Password">
+                                            <input asp-for="ConfirmPassword" placeholder=" Confirm Password">
+                                        </div>
+                                        <div class="button-box">
+                                            <button class="register-btn btn" type="submit"><span>Register</span></button>
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(ViewBag.Link))
+                                        {
+                                            <div class="alert alert-success">
+                                                <strong>Congratulations!!</strong> Registration Successful.
+                                                Please click <button><a href="@ViewBag.Link"> @ViewBag.Link </a></button> to verify your email.
+                                            </div>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- main-content-wrap end -->

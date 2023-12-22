@@ -6,10 +6,11 @@ namespace MyWatchShop.Models.Entity
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public DateTime DateCreated { get; set; }
-        public DateTime DateUpdated { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.UtcNow;
+        public DateTime DateUpdated { get; set; } = DateTime.UtcNow;
 
         //navigation
+        public Cart Cart { get; set; }
         public IList<Review> Reviews { get; set; } = new List<Review>();
         public IList<Rating> Ratings { get; set; } = new List<Rating>();
     }

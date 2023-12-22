@@ -10,6 +10,7 @@
         public int Stars { get; set; }
 
         //Navigation Properties
+        public Cart Cart { get; set; }
         public IList<Review> Reviews { get; set; } = new List<Review>();
         public IList<Rating> Ratings { get; set; } = new List<Rating>();
 

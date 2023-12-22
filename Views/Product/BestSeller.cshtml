@@ -1,5 +1,8 @@
 ﻿@model HomeViewModel
 
+@{
+    ViewData["Title"] = "Home-Page";
+}
 
 <!-- Hero Section Start -->
 <div class="hero-slider hero-slider-one">
@@ -91,7 +94,7 @@
                             </a>
                             <div class="label-product label_new">New</div>
                             <div class="action-links">
-                                <a href="cart.html" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
+                                <a asp-controller="Cart" asp-action="Index" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
                                 <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
                                 <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
                             </div>
