@@ -83,7 +83,7 @@
         </div>
 
         <div class="row product-active-lg-4">
-            @foreach (var item in Model.BestSeller.ProductList)
+            @foreach (var product in Model.BestSeller.ProductList)
             {
                 <div class="col-lg-12">
                     <!-- single-product-area start -->
@@ -94,7 +94,7 @@
                             </a>
                             <div class="label-product label_new">New</div>
                             <div class="action-links">
-                                <a asp-controller="Cart" asp-action="Index" class="cart-btn" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
+                                <a class="cart-btn" onclick="add(@product.Id)" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
                                 <a href="wishlist.html" class="wishlist-btn" title="Add to Wish List"><i class="icon-heart"></i></a>
                                 <a href="#" class="quick-view" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><i class="icon-magnifier icons"></i></a>
                             </div>
@@ -106,7 +106,7 @@
                                 @for (int i = 1; i <= 5; i++)
                                 {
 
-                                    if (i > item.Stars)
+                                    if (i > product.Stars)
                                     {
                                         <i class="fa-solid fa-star" style="color: #cccccc;"></i>
                                     }
@@ -120,10 +120,10 @@
                             </ul>
                         </div>
                         <div class="product-caption">
-                            <h4 class="product-name"><a href="product-details.html">@item.ProductName</a></h4>
+                            <h4 class="product-name"><a href="product-details.html">@product.ProductName</a></h4>
                             <div class="price-box">
-                                <span class="new-price">@item.NewPrice</span>
-                                <span class="old-price">@item.OldPrice</span>
+                                <span class="new-price">@product.NewPrice</span>
+                                <span class="old-price">@product.OldPrice</span>
                             </div>
                         </div>
                     </div>
@@ -135,3 +135,25 @@
 
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        async function add(productId){
+            try {
+                var response = await fetch(`/Cart/AddItem?productId=${productId}`);
+                if (response.status == 200) {
+                    var result = await response.json();
+                    console.log(result);
+                    var cartCountEl = document.getElementById("cartCount");
+                    cartCountEl.innerHTML = result;
+                    console.log("Updated cart count:", result);
+                }
+            }
+            catch (jsonError) {
+                console.log("Error parsing JSON:", jsonError);
+            }
+
+
+        }
+    </script>
+}

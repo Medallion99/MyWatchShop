@@ -5,8 +5,11 @@ namespace MyWatchShop.Services.Interfaces
 {
     public interface ICartService
     {
-        public Task<int> AddToCart(Product model);
-        public Task<IList<Product>> GetAll();
-        public Task<int> DeleteProduct(string id);
+        Task<int> AddItem(string productId, int qty);
+        Task<GetUserCartViewModel> GetUserCart();
+        Task<int> RemoveItem(string productId);
+        Task<int> GetCartItemCount(string userId);
+        Task<ShoppingCart> GetCart(string userId);
+        string GetUserId();
     }
 }

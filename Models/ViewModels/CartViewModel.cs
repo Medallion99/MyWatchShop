@@ -4,6 +4,6 @@ namespace MyWatchShop.Models.ViewModels
 {
     public class CartViewModel
     {
-        public IList<Cart> Carts { get; set; }
+        public IList<ShoppingCart> Carts { get; set; }
     }
 }

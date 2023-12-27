@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyWatchShop.Data;
 
@@ -11,9 +12,11 @@ using MyWatchShop.Data;
 namespace MyWatchShop.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    partial class ShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231224195903_CartAndOrder")]
+    partial class CartAndOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -361,6 +364,9 @@ namespace MyWatchShop.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CartId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
@@ -388,15 +394,12 @@ namespace MyWatchShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ShoppingCartId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Stars")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShoppingCartId");
+                    b.HasIndex("CartId");
 
                     b.ToTable("Products");
                 });
@@ -496,6 +499,10 @@ namespace MyWatchShop.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId")
@@ -564,7 +571,7 @@ namespace MyWatchShop.Migrations
                         .IsRequired();
 
                     b.HasOne("MyWatchShop.Models.Entity.ShoppingCart", "ShoppingCart")
-                        .WithMany("CartDetails")
+                        .WithMany()
                         .HasForeignKey("ShoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -606,11 +613,11 @@ namespace MyWatchShop.Migrations
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Product", b =>
                 {
-                    b.HasOne("MyWatchShop.Models.Entity.ShoppingCart", "ShoppingCart")
-                        .WithMany()
-                        .HasForeignKey("ShoppingCartId");
+                    b.HasOne("MyWatchShop.Models.Entity.ShoppingCart", "Cart")
+                        .WithMany("Products")
+                        .HasForeignKey("CartId");
 
-                    b.Navigation("ShoppingCart");
+                    b.Navigation("Cart");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Rating", b =>
@@ -688,7 +695,7 @@ namespace MyWatchShop.Migrations
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.ShoppingCart", b =>
                 {
-                    b.Navigation("CartDetails");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

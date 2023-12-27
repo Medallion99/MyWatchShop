@@ -10,7 +10,7 @@ namespace MyWatchShop.Models.Entity
         public DateTime DateUpdated { get; set; } = DateTime.UtcNow;
 
         //navigation
-        public Cart Cart { get; set; }
+        public ShoppingCart Cart { get; set; }
         public IList<Review> Reviews { get; set; } = new List<Review>();
         public IList<Rating> Ratings { get; set; } = new List<Rating>();
     }

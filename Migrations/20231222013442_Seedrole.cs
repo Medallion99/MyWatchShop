@@ -13,7 +13,7 @@ namespace MyWatchShop.Migrations
             migrationBuilder.Sql(@"INSERT INTO AspNetRoles (Id, Name, NormalizedName, ConcurrencyStamp)
                                 Values('1', 'regular', 'REGULAR', '01/01/0001 00:00:00'),
                                         ('2', 'admin', 'ADMIN', '01/01/0001 00:00:00')
-                                        ");
+            ");
         }
 
         /// <inheritdoc />
