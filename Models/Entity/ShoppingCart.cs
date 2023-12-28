@@ -6,6 +6,6 @@ namespace MyWatchShop.Models.Entity
     {
         public string AppUserId { get; set; }
         //Navigation property
-        public IList<CartDetail> CartDetails { get; set;}
+        public IList<CartDetail> CartDetails { get; set;} = new List<CartDetail>();
     }
 }

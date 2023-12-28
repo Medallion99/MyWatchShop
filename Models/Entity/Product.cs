@@ -10,7 +10,7 @@
         public int Stars { get; set; }
 
         //Navigation Properties
-        public ShoppingCart ShoppingCart { get; set; }
+        public ShoppingCart ShoppingCart { get; set; } = new ShoppingCart();
         public IList<Review> Reviews { get; set; } = new List<Review>();
         public IList<Rating> Ratings { get; set; } = new List<Rating>();
         public List<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail> ();

@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿
+<!doctype html>
 <html class="no-js" lang="en">
 
 
@@ -136,55 +137,48 @@
                                     <div class="shopping-cart-wrap">
                                         @if(signInManager.IsSignedIn(User))
                                         {
-                                            <a href="#"><i class="icon-basket-loaded"></i><span id="cartCount" class="cart-total">0</span></a>
+                                            <a href="/Cart/GetUserCart"><i class="icon-basket-loaded"></i><span id="cartCount" class="cart-total">0</span></a>
+                                            @* <ul class="mini-cart">
+                                           
+                                                <li class="cart-item">
+                                                    @foreach (var product in Model.GetUserCartViewModel)
+                                                    {
+                                                        <div class="cart-image">
+                                                            <a href="product-details.html"><img alt="" src="~/assets/images/product/product-02.png"></a>
+                                                        </div>
+                                                        <div class="cart-title">
+                                                            <a href="/Cart/GetUserCart">
+                                                                <h4>@product.ProductName</h4>
+                                                            </a>
+                                                            <div class="quanti-price-wrap">
+                                                                <span class="quantity">This is Lovely</span>
+                                                                <div class="price-box"><span class="new-price">@product.NewPrice</span></div>
+                                                            </div>
+                                                            <a class="remove_from_cart" href="#"><i class="icon_close"></i></a>
+                                                        </div>
+                                                        
+                                                    }
+
+                                                </li>
+                                            
+                                                <li class="subtotal-box">
+                                                    <div class="subtotal-title">
+                                                        <h3>Sub-Total :</h3><span>$ 260.99</span>
+                                                    </div>
+                                                </li>
+                                                <li class="mini-cart-btns">
+                                                    <div class="cart-btns">
+                                                        <a href="cart.html">View cart</a>
+                                                        <a href="checkout.html">Checkout</a>
+                                                    </div>
+                                                </li>
+                                            </ul> *@
                                         }
                                         else
                                         {
                                             <a href="#"><i class="icon-basket-loaded"></i><span class="cart-total">0</span></a>
                                         }
-                                        <ul class="mini-cart">
-                                            <li class="cart-item">
-                                                <div class="cart-image">
-                                                    <a href="product-details.html"><img alt="" src="~/assets/images/product/product-02.png"></a>
-                                                </div>
-                                                <div class="cart-title">
-                                                    <a href="product-details.html">
-                                                        <h4>Product Name 01</h4>
-                                                    </a>
-                                                    <div class="quanti-price-wrap">
-                                                        <span class="quantity">1 ×</span>
-                                                        <div class="price-box"><span class="new-price">$130.00</span></div>
-                                                    </div>
-                                                    <a class="remove_from_cart" href="#"><i class="icon_close"></i></a>
-                                                </div>
-                                            </li>
-                                            <li class="cart-item">
-                                                <div class="cart-image">
-                                                    <a href="product-details.html"><img alt="" src="~/assets/images/product/product-03.png"></a>
-                                                </div>
-                                                <div class="cart-title">
-                                                    <a href="product-details.html">
-                                                        <h4>Product Name 03</h4>
-                                                    </a>
-                                                    <div class="quanti-price-wrap">
-                                                        <span class="quantity">1 ×</span>
-                                                        <div class="price-box"><span class="new-price">$130.00</span></div>
-                                                    </div>
-                                                    <a class="remove_from_cart" href="#"><i class="icon-trash icons"></i></a>
-                                                </div>
-                                            </li>
-                                            <li class="subtotal-box">
-                                                <div class="subtotal-title">
-                                                    <h3>Sub-Total :</h3><span>$ 260.99</span>
-                                                </div>
-                                            </li>
-                                            <li class="mini-cart-btns">
-                                                <div class="cart-btns">
-                                                    <a href="cart.html">View cart</a>
-                                                    <a href="checkout.html">Checkout</a>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                        
                                     </div>
                                 </div>
                             </div>

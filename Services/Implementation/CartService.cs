@@ -121,9 +121,9 @@ namespace MyWatchShop.Services.Implementation
             return cartItemCount;
         }
 
-        public async Task<GetUserCartViewModel> GetUserCart()
+        public async Task<ShoppingCart> GetUserCart()
         {
-            var viewModel = new GetUserCartViewModel();
+            //var viewModel = new GetUserCartViewModel();
             var userId = GetUserId();
 
             if (userId == null)
@@ -133,19 +133,10 @@ namespace MyWatchShop.Services.Implementation
             var shoppingCart = await _ctx.ShoppingCarts
                                 .Include(a => a.CartDetails)
                                 .ThenInclude(a => a.Product)
-                                .ThenInclude(a => a)
-                                .Where(a => a.Id == userId).FirstOrDefaultAsync();
+                                .Where(a => a.AppUserId == userId).FirstOrDefaultAsync();
 
-            foreach(var item in  shoppingCart.CartDetails)
-            {
-                viewModel.Product.ProductName = item.Product.ProductName;
-                viewModel.Product.OldPrice = item.Product.OldPrice;
-                viewModel.Product.NewPrice = item.Product.NewPrice;
-                viewModel.Product.ProductDescription = item.Product.ProductDescription;
-                viewModel.Product.ImageUrl = item.Product.ImageUrl;
-                viewModel.Product.Stars = item.Product.Stars;
-            }
-            return viewModel;
+         
+            return shoppingCart;
         }
 
         public async Task<int> GetCartItemCount(string userId)

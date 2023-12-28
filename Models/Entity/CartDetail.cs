@@ -6,7 +6,7 @@
 
         public string ShoppingCartId { get; set; }
         public string ProductId { get; set; }
-        public Product Product { get; set; }
-        public ShoppingCart ShoppingCart { get; set; }
+        public Product Product { get; set; } = new Product();
+        public ShoppingCart ShoppingCart { get; set; } = new ShoppingCart();
     }
 }
