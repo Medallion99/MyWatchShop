@@ -96,7 +96,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-3 col-md-4 col-5">
                                 <div class="logo-area">
-                                    <a href="index.html"><img src="~/assets/images/logo/logo.png" alt=""></a>
+                                    <a asp-action="BestSeller" asp-controller="Product"><img src="~/assets/images/logo/logo.png" alt=""></a>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -138,41 +138,6 @@
                                         @if(signInManager.IsSignedIn(User))
                                         {
                                             <a href="/Cart/GetUserCart"><i class="icon-basket-loaded"></i><span id="cartCount" class="cart-total">0</span></a>
-                                            @* <ul class="mini-cart">
-                                           
-                                                <li class="cart-item">
-                                                    @foreach (var product in Model.GetUserCartViewModel)
-                                                    {
-                                                        <div class="cart-image">
-                                                            <a href="product-details.html"><img alt="" src="~/assets/images/product/product-02.png"></a>
-                                                        </div>
-                                                        <div class="cart-title">
-                                                            <a href="/Cart/GetUserCart">
-                                                                <h4>@product.ProductName</h4>
-                                                            </a>
-                                                            <div class="quanti-price-wrap">
-                                                                <span class="quantity">This is Lovely</span>
-                                                                <div class="price-box"><span class="new-price">@product.NewPrice</span></div>
-                                                            </div>
-                                                            <a class="remove_from_cart" href="#"><i class="icon_close"></i></a>
-                                                        </div>
-                                                        
-                                                    }
-
-                                                </li>
-                                            
-                                                <li class="subtotal-box">
-                                                    <div class="subtotal-title">
-                                                        <h3>Sub-Total :</h3><span>$ 260.99</span>
-                                                    </div>
-                                                </li>
-                                                <li class="mini-cart-btns">
-                                                    <div class="cart-btns">
-                                                        <a href="cart.html">View cart</a>
-                                                        <a href="checkout.html">Checkout</a>
-                                                    </div>
-                                                </li>
-                                            </ul> *@
                                         }
                                         else
                                         {
@@ -197,7 +162,7 @@
                                     <nav class="main-navigation text-center">
                                         <ul>
                                             <li class="active">
-                                                <a href="index.html">Home <i class=""></i></a>
+                                                <a asp-action="BestSeller" asp-controller="Product">Home <i class=""></i></a>
                                             </li>
 
                                             <li>

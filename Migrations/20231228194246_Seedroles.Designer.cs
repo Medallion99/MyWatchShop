@@ -12,8 +12,8 @@ using MyWatchShop.Data;
 namespace MyWatchShop.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20231224195903_CartAndOrder")]
-    partial class CartAndOrder
+    [Migration("20231228194246_Seedroles")]
+    partial class Seedroles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -364,9 +364,6 @@ namespace MyWatchShop.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CartId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
@@ -394,12 +391,15 @@ namespace MyWatchShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ShoppingCartId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("Stars")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Products");
                 });
@@ -499,10 +499,6 @@ namespace MyWatchShop.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId")
@@ -571,7 +567,7 @@ namespace MyWatchShop.Migrations
                         .IsRequired();
 
                     b.HasOne("MyWatchShop.Models.Entity.ShoppingCart", "ShoppingCart")
-                        .WithMany()
+                        .WithMany("CartDetails")
                         .HasForeignKey("ShoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -613,11 +609,11 @@ namespace MyWatchShop.Migrations
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Product", b =>
                 {
-                    b.HasOne("MyWatchShop.Models.Entity.ShoppingCart", "Cart")
-                        .WithMany("Products")
-                        .HasForeignKey("CartId");
+                    b.HasOne("MyWatchShop.Models.Entity.ShoppingCart", "ShoppingCart")
+                        .WithMany()
+                        .HasForeignKey("ShoppingCartId");
 
-                    b.Navigation("Cart");
+                    b.Navigation("ShoppingCart");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Rating", b =>
@@ -661,7 +657,7 @@ namespace MyWatchShop.Migrations
             modelBuilder.Entity("MyWatchShop.Models.Entity.ShoppingCart", b =>
                 {
                     b.HasOne("MyWatchShop.Models.Entity.AppUser", null)
-                        .WithOne("Cart")
+                        .WithOne("ShoppingCart")
                         .HasForeignKey("MyWatchShop.Models.Entity.ShoppingCart", "AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -669,12 +665,12 @@ namespace MyWatchShop.Migrations
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.AppUser", b =>
                 {
-                    b.Navigation("Cart")
-                        .IsRequired();
-
                     b.Navigation("Ratings");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("ShoppingCart")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Order", b =>
@@ -695,7 +691,7 @@ namespace MyWatchShop.Migrations
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.ShoppingCart", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("CartDetails");
                 });
 #pragma warning restore 612, 618
         }

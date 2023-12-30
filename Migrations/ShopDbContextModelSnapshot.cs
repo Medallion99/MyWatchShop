@@ -265,7 +265,7 @@ namespace MyWatchShop.Migrations
 
                     b.HasIndex("ShoppingCartId");
 
-                    b.ToTable("CartDetails", (string)null);
+                    b.ToTable("CartDetails");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Order", b =>
@@ -294,7 +294,7 @@ namespace MyWatchShop.Migrations
 
                     b.HasIndex("OrderStatusId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.OrderDetail", b =>
@@ -331,7 +331,7 @@ namespace MyWatchShop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.OrderStatus", b =>
@@ -353,7 +353,7 @@ namespace MyWatchShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderStatuses", (string)null);
+                    b.ToTable("OrderStatuses");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Product", b =>
@@ -398,7 +398,7 @@ namespace MyWatchShop.Migrations
 
                     b.HasIndex("ShoppingCartId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Rating", b =>
@@ -436,7 +436,7 @@ namespace MyWatchShop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Ratings", (string)null);
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Review", b =>
@@ -475,7 +475,7 @@ namespace MyWatchShop.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.ShoppingCart", b =>
@@ -501,7 +501,7 @@ namespace MyWatchShop.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("ShoppingCarts", (string)null);
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -654,7 +654,7 @@ namespace MyWatchShop.Migrations
             modelBuilder.Entity("MyWatchShop.Models.Entity.ShoppingCart", b =>
                 {
                     b.HasOne("MyWatchShop.Models.Entity.AppUser", null)
-                        .WithOne("Cart")
+                        .WithOne("ShoppingCart")
                         .HasForeignKey("MyWatchShop.Models.Entity.ShoppingCart", "AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -662,12 +662,12 @@ namespace MyWatchShop.Migrations
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.AppUser", b =>
                 {
-                    b.Navigation("Cart")
-                        .IsRequired();
-
                     b.Navigation("Ratings");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("ShoppingCart")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Order", b =>

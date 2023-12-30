@@ -5,7 +5,7 @@
 namespace MyWatchShop.Migrations
 {
     /// <inheritdoc />
-    public partial class Seedrole : Migration
+    public partial class Seedroles : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,6 +14,7 @@ namespace MyWatchShop.Migrations
                                 Values('1', 'regular', 'REGULAR', '01/01/0001 00:00:00'),
                                         ('2', 'admin', 'ADMIN', '01/01/0001 00:00:00')
             ");
+
         }
 
         /// <inheritdoc />

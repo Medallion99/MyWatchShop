@@ -5,7 +5,7 @@
 namespace MyWatchShop.Migrations
 {
     /// <inheritdoc />
-    public partial class ToSeed : Migration
+    public partial class SeedingData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

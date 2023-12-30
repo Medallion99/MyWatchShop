@@ -12,8 +12,8 @@ using MyWatchShop.Data;
 namespace MyWatchShop.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20231221120722_Cart")]
-    partial class Cart
+    [Migration("20231228194020_SeedingData")]
+    partial class SeedingData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -237,13 +237,9 @@ namespace MyWatchShop.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("MyWatchShop.Models.Entity.Cart", b =>
+            modelBuilder.Entity("MyWatchShop.Models.Entity.CartDetail", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateAdded")
@@ -255,38 +251,117 @@ namespace MyWatchShop.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShoppingCartId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ShoppingCartId");
+
+                    b.ToTable("CartDetails");
+                });
+
+            modelBuilder.Entity("MyWatchShop.Models.Entity.Order", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AppUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("NewPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
 
-                    b.Property<decimal>("OldPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderStatusId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderStatusId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("MyWatchShop.Models.Entity.OrderDetail", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProductId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProductName")
-                        .IsRequired()
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("MyWatchShop.Models.Entity.OrderStatus", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StatusName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
-
-                    b.ToTable("Cart");
+                    b.ToTable("OrderStatuses");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Product", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CartId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateAdded")
@@ -316,12 +391,15 @@ namespace MyWatchShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ShoppingCartId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("Stars")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CartId");
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Products");
                 });
@@ -403,6 +481,32 @@ namespace MyWatchShop.Migrations
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("MyWatchShop.Models.Entity.ShoppingCart", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateDeleted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
+
+                    b.ToTable("ShoppingCarts");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -454,22 +558,62 @@ namespace MyWatchShop.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MyWatchShop.Models.Entity.Cart", b =>
+            modelBuilder.Entity("MyWatchShop.Models.Entity.CartDetail", b =>
                 {
-                    b.HasOne("MyWatchShop.Models.Entity.AppUser", null)
-                        .WithOne("Cart")
-                        .HasForeignKey("MyWatchShop.Models.Entity.Cart", "AppUserId")
+                    b.HasOne("MyWatchShop.Models.Entity.Product", "Product")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("MyWatchShop.Models.Entity.ShoppingCart", "ShoppingCart")
+                        .WithMany("CartDetails")
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("ShoppingCart");
+                });
+
+            modelBuilder.Entity("MyWatchShop.Models.Entity.Order", b =>
+                {
+                    b.HasOne("MyWatchShop.Models.Entity.OrderStatus", "OrderStatus")
+                        .WithMany()
+                        .HasForeignKey("OrderStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderStatus");
+                });
+
+            modelBuilder.Entity("MyWatchShop.Models.Entity.OrderDetail", b =>
+                {
+                    b.HasOne("MyWatchShop.Models.Entity.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyWatchShop.Models.Entity.Product", "Product")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Product", b =>
                 {
-                    b.HasOne("MyWatchShop.Models.Entity.Cart", "Cart")
-                        .WithMany("Products")
-                        .HasForeignKey("CartId");
+                    b.HasOne("MyWatchShop.Models.Entity.ShoppingCart", "ShoppingCart")
+                        .WithMany()
+                        .HasForeignKey("ShoppingCartId");
 
-                    b.Navigation("Cart");
+                    b.Navigation("ShoppingCart");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Rating", b =>
@@ -510,26 +654,44 @@ namespace MyWatchShop.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("MyWatchShop.Models.Entity.ShoppingCart", b =>
+                {
+                    b.HasOne("MyWatchShop.Models.Entity.AppUser", null)
+                        .WithOne("ShoppingCart")
+                        .HasForeignKey("MyWatchShop.Models.Entity.ShoppingCart", "AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MyWatchShop.Models.Entity.AppUser", b =>
                 {
-                    b.Navigation("Cart")
-                        .IsRequired();
-
                     b.Navigation("Ratings");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("ShoppingCart")
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("MyWatchShop.Models.Entity.Cart", b =>
+            modelBuilder.Entity("MyWatchShop.Models.Entity.Order", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.Product", b =>
                 {
+                    b.Navigation("CartDetails");
+
+                    b.Navigation("OrderDetails");
+
                     b.Navigation("Ratings");
 
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("MyWatchShop.Models.Entity.ShoppingCart", b =>
+                {
+                    b.Navigation("CartDetails");
                 });
 #pragma warning restore 612, 618
         }

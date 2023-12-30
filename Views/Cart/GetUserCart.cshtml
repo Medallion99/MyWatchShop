@@ -4,7 +4,7 @@
     decimal total = 0;
     foreach(var i in Model.CartDetails)
     {
-        total += i.Product.NewPrice;
+        total += i.Product.NewPrice * i.Quantity;
     }
 }
 
@@ -29,67 +29,97 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <form action="#" class="cart-table">
-                    <div class="table-content table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="plantmore-product-thumbnail">Images</th>
-                                    <th class="cart-product-name">Product</th>
-                                    <th class="plantmore-product-price">Unit Price</th>
-                                    <th class="plantmore-product-quantity">Quantity</th>
-                                    <th class="plantmore-product-subtotal">Total</th>
-                                    <th class="plantmore-product-remove">Remove</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach(var product in Model.CartDetails)
-                                {
+                @if(Model.CartDetails != null && Model.CartDetails.Count != null)
+                {
+                    <form method="get" class="cart-table">
+                        <div class="table-content table-responsive">
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <td class="plantmore-product-thumbnail"><a href="#"><img src="~/assets/images/other/01.jpg" alt=""></a></td>
-                                        <td class="plantmore-product-name"><a href="#">@product.Product.ProductName</a></td>
-                                        <td class="plantmore-product-price"><span class="amount">@product.Product.NewPrice</span></td>
-                                        <td class="plantmore-product-quantity">
-                                            <input value="1" type="number">
-                                        </td>
-                                        <td class="product-subtotal"><span class="amount">@product.Product.NewPrice</span></td>
-                                        <td class="plantmore-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
+                                        <th class="plantmore-product-thumbnail">Images</th>
+                                        <th class="cart-product-name">Product</th>
+                                        <th class="plantmore-product-price">Unit Price</th>
+                                        <th class="plantmore-product-quantity">Quantity</th>
+                                        <th class="plantmore-product-subtotal">Total</th>
+                                        <th class="plantmore-product-remove">Remove/Reduce Qty</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="coupon-all">
+                                </thead>
+                                <tbody>
+                                    @foreach (var product in Model.CartDetails)
+                                    {
+                                        var subtotal = product.Product.NewPrice * product.Quantity;
+                                        <tr>
+                                            <td class="plantmore-product-thumbnail"><a href="#"><img src="~/assets/images/other/01.jpg" alt=""></a></td>
+                                            <td class="plantmore-product-name"><a href="#">@product.Product.ProductName</a></td>
+                                            <td class="plantmore-product-price"><span class="amount">@product.Product.NewPrice</span></td>
+                                            <td class="plantmore-product-quantity">
+                                                <input name="@product.ProductId" value="@product.Quantity" type="number" onchange="updateQuantity(this)">
+                                            </td>
+                                            <td class="product-subtotal"><span class="amount">@subtotal</span></td>
+                                            <td class="plantmore-product-remove"><a href="/Cart/RemoveItem?productId=@product.ProductId"><i class="fa fa-times"></i></a></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="coupon-all">
 
-                                <div class="coupon2">
-                                    <input class="submit" name="update_cart" value="Update cart" type="submit">
-                                    <a href="shop.html" class=" continue-btn">Continue Shopping</a>
+                                    <div class="coupon2">
+                                        <input class="submit" name="update_cart" value="Update cart" type="submit">
+                                        <a href="shop.html" class=" continue-btn">Continue Shopping</a>
+                                    </div>
+
+                                    <div class="coupon">
+                                        <h3>Coupon</h3>
+                                        <p>Enter your coupon code if you have one.</p>
+                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
+                                        <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
+                                    </div>
                                 </div>
-
-                                <div class="coupon">
-                                    <h3>Coupon</h3>
-                                    <p>Enter your coupon code if you have one.</p>
-                                    <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
-                                    <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
+                            </div>
+                            <div class="col-md-4 ml-auto">
+                                <div class="cart-page-total">
+                                    <h2>Cart totals</h2>
+                                    <ul>
+                                        <li>Subtotal <span>@total</span></li>
+                                        <li>Total <span>@total</span></li>
+                                    </ul>
+                                    <a href="#" class="proceed-checkout-btn">Proceed to checkout</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 ml-auto">
-                            <div class="cart-page-total">
-                                <h2>Cart totals</h2>
-                                <ul>
-                                    <li>Subtotal <span>@total</span></li>
-                                    <li>Total <span>@total</span></li>
-                                </ul>
-                                <a href="#" class="proceed-checkout-btn">Proceed to checkout</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                }
+                else
+                {
+                    <h5>Cart is Empty</h5>
+                }
+
             </div>
         </div>
     </div>
 </div>
 <!-- main-content-wrap end -->
+
+<script>
+    function updateQuantity(inputElement) {
+        var productId = inputElement.name;
+        var qty = inputElement.value;
+
+        // Send asynchronous requests to the server to update the quantity
+        $.ajax({
+            url: '/Cart/UpdateQuantity',
+            method: 'POST',
+            data: { productId: productId, qty: qty },
+            success: function (data) {
+                // Optionally, handle success response from the server
+            },
+            error: function (error) {
+                // Optionally, handle error response from the server
+            }
+        });
+    }
+</script>
+

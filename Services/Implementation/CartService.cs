@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyWatchShop.Data;
 using MyWatchShop.Data.Repository.Interface;
-using MyWatchShop.Migrations;
 using MyWatchShop.Models.Entity;
 using MyWatchShop.Models.ViewModels;
 using MyWatchShop.Services.Interfaces;
@@ -56,6 +55,7 @@ namespace MyWatchShop.Services.Implementation
                         AppUserId = userId,
                     };
                     await _repository.Add<ShoppingCart>(cart);
+                    _ctx.SaveChanges();
                 }
 
                 var cartItem = _ctx.CartDetails.FirstOrDefault(a => a.ShoppingCartId == cart.Id && a.ProductId == productId);
@@ -152,6 +152,40 @@ namespace MyWatchShop.Services.Implementation
             }).ToListAsync();
 
             return result.Count;
+        }
+
+        public async Task<int> UpdateCartQty(string productId, int qty)
+        {
+            string userId = GetUserId();
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new Exception("User not found");
+            }
+
+            var cart = await GetCart(userId);
+
+            if (cart == null)
+            {
+                throw new Exception("Cart is not found");
+            }
+
+            var cartDetail = _ctx.CartDetails.FirstOrDefault(s => s.ShoppingCartId == cart.Id && s.ProductId == productId);
+
+            if (qty >= cartDetail.Quantity)
+            {
+                cartDetail.Quantity += 1;
+            }
+            else if(qty > 0 && qty <= cartDetail.Quantity)
+            {
+                cartDetail.Quantity -= 1;
+            }
+            else
+            {
+                throw new Exception("Value cannot be less than 0");
+            }
+            _ctx.SaveChanges();
+            return cartDetail.Quantity;
         }
     }
 }
