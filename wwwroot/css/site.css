@@ -1,4 +1,4 @@
-html {
+/*html {
   font-size: 14px;
 }
 
@@ -19,4 +19,88 @@ html {
 
 body {
   margin-bottom: 60px;
+}*/
+
+/*My Own Style*/
+
+
+.section--class {
+    display: flex;
+    justify-content:space-between;
+    width: 100%;
+    height: 100vh;
+    text-align:center;
+}
+
+.section--class ul{
+    font-size:20px;
+    list-style:none;
+    color:antiquewhite;
+    margin-top:30px;
+}
+
+.section--class li {
+    margin:20px 0px 20px; 
+}
+.panel--class {
+    width: 20%;
+    height: 100vh;
+    background: red;
+}
+
+.layout--class {
+    width: 80%;
+    height: 100vh;
+    background-color:aliceblue;
+}
+
+.table--class{
+    width:100%;
+}
+
+.table--class th{
+    align-items:center;
+}
+
+.background--image--class {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+}
+
+.img--class{
+    height:100vh;
+    width:100%;
+}
+
+.background--text--class {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    position: absolute;
+    top: 400px;
+    left:35%;
+    bottom:25%
+    /*transform: translate(-50%, -50%);*/
+    width: 50%; /* Adjust the width as needed */
+    text-align: center;
+}
+
+.background--text--class h1 {
+    color: darkslateblue;
+}
+.background--text--class h2 {
+    color: lawngreen;
+}
+
+.btn--class{
+    /*margin-left:auto;*/
+    float:right;
+    border:none;
+    background:black;
+}
+
+.main--class a{
+    color:yellowgreen;
 }

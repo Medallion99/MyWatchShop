@@ -18,18 +18,25 @@ namespace MyWatchShop.Services.Implementation
         }
         public async Task<int> AddProduct(AddProductViewModel model)
         {
-            var product = new Product()
+            try
             {
-                ProductName = model.ProductName,
-                ProductDescription = model.ProductDescription,
-                OldPrice = model.OldPrice,
-                NewPrice = model.NewPrice,
-                ImageUrl = model.ImageUrl,
-            };
+                var product = new Product()
+                {
+                    ProductName = model.ProductName,
+                    ProductDescription = model.ProductDescription,
+                    OldPrice = model.OldPrice,
+                    NewPrice = model.NewPrice,
+                    ImageUrl = model.ImageUrl,
+                };
+                var result = await _repository.Add<Product>(product);
+                return result;
 
-            var result = await _repository.Add(product);
-            return result;
-        }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }   
 
         public Task<int> DeleteProduct(string id)
         {

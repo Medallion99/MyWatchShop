@@ -2,5 +2,6 @@
 {
     public interface IOrderService
     {
+        Task<bool> CheckOut();
     }
 }

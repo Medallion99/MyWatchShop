@@ -86,8 +86,6 @@
                                         {
                                             var user = _usermanager.GetUserAsync(User).Result;
 
-                                            <li><a asp-controller="Admin" asp-action="WelcomePage">Admin Dashboard</a></li>
-
                                             <li style="color:greenyellow;">Welcome! @user.FirstName </li>
                                         }
                                     </ul>
@@ -410,10 +408,18 @@
 
             </header>
                 <!-- haeader bottom End -->
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-
+            <div class="section--class">
+                <div class="panel--class">
+                    <ul>
+                        <li><a href="/Admin/ManageProduct">Manage Products</a></li>
+                        <li><a href="/Admin/ManageUser">Manage User</a></li>
+                        <li><a href="/Admin/ManageRole">Manage Roles</a></li>
+                    </ul>
+                </div>
+                <div class="layout--class">
+                    @RenderBody()
+                </div>
+            </div>
                 <!-- footer Start -->
                 <footer>
                     <div class="footer-top section-pb section-pt-60">

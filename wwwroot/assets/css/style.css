@@ -81,6 +81,18 @@ h1 {
   line-height: 55px;
 }
 
+.congrats{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.congrats h2{
+    color:lightgreen;
+}
+
 h2 {
   font-size: 36px;
   line-height: 36px;
@@ -5496,4 +5508,26 @@ img.mfp-img {
 .login-form-container .login-btn, .login-form-container .register-btn {
   margin-top: 20px;
   padding: 8px 30px;
+}
+
+/*My Own Style*/
+
+body {
+}
+
+.section1 {
+    display: flex;
+    width: 100px;
+    height: 100vh;
+}
+
+.panel {
+    width: 400px;
+    height: 100vh;
+    background: blue;
+}
+
+.layout1 {
+    background: green;
+    height: 100vh;
 }

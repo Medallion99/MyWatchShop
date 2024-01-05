@@ -26,6 +26,7 @@
                         <div id="lg1" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
+                                    <div asp-validation-summary="All"></div>
                                     <form asp-controller="Account" asp-action="Register" method="post">
                                         <div class="login-input-box">
                                             <input asp-for="FirstName" placeholder="User Name">
@@ -37,13 +38,13 @@
                                         <div class="button-box">
                                             <button class="register-btn btn" type="submit"><span>Register</span></button>
                                         </div>
-                                        @if (!string.IsNullOrEmpty(ViewBag.Link))
+                                       @*  @if (!string.IsNullOrEmpty(ViewBag.Link))
                                         {
                                             <div class="alert alert-success">
                                                 <strong>Congratulations!!</strong> Registration Successful.
                                                 Please click <button><a href="@ViewBag.Link"> @ViewBag.Link </a></button> to verify your email.
                                             </div>
-                                        }
+                                        } *@
                                     </form>
                                 </div>
                             </div>

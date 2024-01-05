@@ -15,7 +15,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ShopDbContext>()
-    .AddDefaultTokenProviders()
     .AddDefaultTokenProviders();
 
 
@@ -23,6 +22,8 @@ builder.Services.AddScoped<IRepository, Repository >();
 builder.Services.AddScoped<IProductService, ProductService >();
 builder.Services.AddScoped<IAdminServices, AdminServices >();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 
@@ -44,6 +45,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Product}/{action=BestSeller}/{id?}");
+    pattern: "{controller=Home}/{action=BestSeller}/{id?}");
 
 app.Run();

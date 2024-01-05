@@ -5,16 +5,15 @@
 namespace MyWatchShop.Migrations
 {
     /// <inheritdoc />
-    public partial class Seedroles : Migration
+    public partial class SeedingRoles : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(@"INSERT INTO AspNetRoles (Id, Name, NormalizedName, ConcurrencyStamp)
-                                Values('1', 'regular', 'REGULAR', '01/01/0001 00:00:00'),
-                                        ('2', 'admin', 'ADMIN', '01/01/0001 00:00:00')
+                    Values('1', 'regular', 'REGULAR', '01/01/0001 00:00:00'),
+                            ('2', 'admin', 'ADMIN', '01/01/0001 00:00:00')
             ");
-
         }
 
         /// <inheritdoc />

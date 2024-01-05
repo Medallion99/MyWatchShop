@@ -259,6 +259,9 @@ namespace MyWatchShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
@@ -371,7 +374,6 @@ namespace MyWatchShop.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("NewPrice")
@@ -388,15 +390,10 @@ namespace MyWatchShop.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ShoppingCartId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("Stars")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("Products");
                 });
@@ -484,7 +481,6 @@ namespace MyWatchShop.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("AppUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateAdded")
@@ -499,7 +495,8 @@ namespace MyWatchShop.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[AppUserId] IS NOT NULL");
 
                     b.ToTable("ShoppingCarts");
                 });
@@ -604,15 +601,6 @@ namespace MyWatchShop.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("MyWatchShop.Models.Entity.Product", b =>
-                {
-                    b.HasOne("MyWatchShop.Models.Entity.ShoppingCart", "ShoppingCart")
-                        .WithMany()
-                        .HasForeignKey("ShoppingCartId");
-
-                    b.Navigation("ShoppingCart");
-                });
-
             modelBuilder.Entity("MyWatchShop.Models.Entity.Rating", b =>
                 {
                     b.HasOne("MyWatchShop.Models.Entity.AppUser", "AppUser")
@@ -655,9 +643,7 @@ namespace MyWatchShop.Migrations
                 {
                     b.HasOne("MyWatchShop.Models.Entity.AppUser", null)
                         .WithOne("ShoppingCart")
-                        .HasForeignKey("MyWatchShop.Models.Entity.ShoppingCart", "AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MyWatchShop.Models.Entity.ShoppingCart", "AppUserId");
                 });
 
             modelBuilder.Entity("MyWatchShop.Models.Entity.AppUser", b =>

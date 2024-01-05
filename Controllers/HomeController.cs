@@ -9,13 +9,43 @@ namespace MyWatchShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
+        private readonly ICartService _cartService;
 
-        public HomeController(ILogger<HomeController> logger, IProductService productService)
+        public HomeController(IProductService productService, ICartService cartService)
         {
-            _logger = logger;
             this._productService = productService;
+            this._cartService = cartService;
+        }
+
+        public async Task<IActionResult> BestSeller()
+        {
+            var viewToReturn = await _productService.GetAllProduct();
+            var homeView = new HomeViewModel();
+
+            homeView.BestSeller = new Showcase
+            {
+                Product = 4,
+                ProductList = new List<ProductSummarizedViewModel>()
+            };
+
+            foreach (var product in viewToReturn)
+            {
+                var productViewModel = new ProductSummarizedViewModel
+                {
+                    ProductName = product.ProductName,
+                    Id = product.Id,
+                    OldPrice = product.OldPrice,
+                    NewPrice = product.NewPrice,
+                    ImageUrl = product.ImageUrl,
+                    Stars = product.Stars,
+                };
+                //var productToRetrieve = viewToReturn.Where(x => x.DateAdded > DateTime.Now.AddDays(-7));
+
+                homeView.BestSeller.ProductList.Add(productViewModel);
+            }
+
+            return View(homeView);
         }
 
         public IActionResult Index()

@@ -90,8 +90,21 @@
                     <div class="single-product-area mt-30">
                         <div class="product-thumb">
                             <a href="product-details.html">
-                                <img class="primary-image" src="~/assets/images/product/product-02.png" alt="">
+                                <img class="primary-image" src="@product.ImageUrl" />
                             </a>
+                            @* @if(product.ImageUrl == null)
+                            {
+                                <a href="product-details.html">
+                                    <img class="primary-image" src="~/assets/images/product/product-02.png" alt="">
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="product-details.html">
+                                    <img class="primary-image" src="@product.ImageUrl" />
+                                </a>
+                            } *@
+
                             <div class="label-product label_new">New</div>
                             <div class="action-links">
                                 <a class="cart-btn" asp-action="AddItem" asp-controller="Cart" onclick="add(@product.Id)" title="Add to Cart"><i class="icon-basket-loaded"></i></a>
@@ -122,8 +135,8 @@
                         <div class="product-caption">
                             <h4 class="product-name"><a href="product-details.html">@product.ProductName</a></h4>
                             <div class="price-box">
-                                <span class="new-price">@product.NewPrice</span>
-                                <span class="old-price">@product.OldPrice</span>
+                                <span class="new-price">&#8358 @product.NewPrice.ToString("N0")</span>
+                                <span class="old-price">&#8358 @product.OldPrice.ToString("N0")</span>
                             </div>
                         </div>
                     </div>

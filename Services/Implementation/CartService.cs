@@ -40,10 +40,12 @@ namespace MyWatchShop.Services.Implementation
         public async Task<int> AddItem(string productId, int qty = 0)
         {
             string userId = GetUserId();
-
+            
             using var transaction = _ctx.Database.BeginTransaction();
             try
             {
+                var pId = productId;
+
                 if (string.IsNullOrEmpty(userId))
                     throw new Exception("User id not found");
 
@@ -55,21 +57,24 @@ namespace MyWatchShop.Services.Implementation
                         AppUserId = userId,
                     };
                     await _repository.Add<ShoppingCart>(cart);
-                    _ctx.SaveChanges();
+                    //_ctx.SaveChanges();
                 }
 
-                var cartItem = _ctx.CartDetails.FirstOrDefault(a => a.ShoppingCartId == cart.Id && a.ProductId == productId);
+                var cartItem = await _ctx.CartDetails.FirstOrDefaultAsync(a => a.ShoppingCartId == cart.Id && a.ProductId == productId);
                 if (cartItem != null)
                 {
                     cartItem.Quantity += qty;
                 }
                 else
                 {
+                    //var product = await _repository.GetById<Product>(pId); //Causing me a bug, Will fix later
+
                     cartItem = new CartDetail
                     {
                         ProductId = productId,
                         Quantity = qty,
                         ShoppingCartId = cart.Id,
+                        //UnitPrice = product.NewPrice
                     };
                     await _repository.Add<CartDetail>(cartItem);
                 }
@@ -145,13 +150,18 @@ namespace MyWatchShop.Services.Implementation
             {
                 userId = GetUserId();
             }
+            //var cart = await GetCart(userId);
 
             var result = await _ctx.ShoppingCarts.Join(_ctx.CartDetails, cart => cart.Id, cartDetail => cartDetail.ShoppingCartId, (cart, cartDetail) => new
             {
-                cartDetail.Id,
+                cart.Id
             }).ToListAsync();
 
             return result.Count;
+
+            //var getUserCount = await GetUserCart();
+
+            //return getUserCount.CartDetails.Count;
         }
 
         public async Task<int> UpdateCartQty(string productId, int qty)

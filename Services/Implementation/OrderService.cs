@@ -5,7 +5,7 @@ using MyWatchShop.Services.Interfaces;
 
 namespace MyWatchShop.Services.Implementation
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
         private readonly IRepository _repository;
         private readonly ICartService _cartService;
@@ -18,7 +18,7 @@ namespace MyWatchShop.Services.Implementation
             this._ctx = ctx;
         }
 
-        public async Task CheckOut()
+        public async Task<bool> CheckOut()
         {
             using var transaction = _ctx.Database.BeginTransaction();
             try
@@ -34,7 +34,7 @@ namespace MyWatchShop.Services.Implementation
 
                 var cartDetails = _ctx.CartDetails.Where(s => s.ShoppingCartId == cart.Id).ToList();
 
-                if(cartDetails.Count == 0)
+                if (cartDetails.Count == 0)
                 {
                     throw new Exception("Cart is Empty");
                 }
@@ -42,8 +42,29 @@ namespace MyWatchShop.Services.Implementation
                 var order = new Order
                 {
                     AppUserId = userId,
-
+                    OrderStatusId = "1"
                 };
+                await _repository.Add<Order>(order);
+
+                foreach (var item in cartDetails)
+                {
+                    var orderDetail = new OrderDetail
+                    {
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity,
+                        OrderId = order.Id,
+                        UnitPrice = item.UnitPrice,
+                    };
+                    await _repository.Add<OrderDetail>(orderDetail);
+                }
+                await _repository.RemoveRange<CartDetail>(cartDetails);
+                transaction.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

@@ -18,6 +18,12 @@ namespace MyWatchShop.Controllers
         //    var result = _adminServices.AddProduct(addProductViewModel);
         //    return View(result);
         //}
+
+        [HttpGet]
+        public IActionResult WelcomePage()
+        {
+            return View();
+        }
         [HttpGet]
         [Authorize]
         public IActionResult Add ()
@@ -27,10 +33,23 @@ namespace MyWatchShop.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Add(AddProductViewModel model)
+        public async Task<IActionResult> Add(AddProductViewModel model)
         {
-            var result = _adminServices.AddProduct(model);
-            return RedirectToAction("BestSeller", "Product");
+            var result = await _adminServices.AddProduct(model);
+            return RedirectToAction("BestSeller", "Home");
+        }
+
+        public IActionResult ManageUser()
+        {
+            return View();
+        }
+        public IActionResult ManageRole()
+        {
+            return View();
+        }
+        public IActionResult ManageProduct()
+        {
+            return View();
         }
     }
 }

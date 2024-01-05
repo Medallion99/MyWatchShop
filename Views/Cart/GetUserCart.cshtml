@@ -2,10 +2,6 @@
 @model ShoppingCart
 @{
     decimal total = 0;
-    foreach(var i in Model.CartDetails)
-    {
-        total += i.Product.NewPrice * i.Quantity;
-    }
 }
 
 <!-- breadcrumb-area start -->
@@ -29,7 +25,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                @if(Model.CartDetails != null && Model.CartDetails.Count != null)
+                @if(Model != null)
                 {
                     <form method="get" class="cart-table">
                         <div class="table-content table-responsive">
@@ -47,15 +43,16 @@
                                 <tbody>
                                     @foreach (var product in Model.CartDetails)
                                     {
+                                        total += product.Product.NewPrice * product.Quantity;
                                         var subtotal = product.Product.NewPrice * product.Quantity;
                                         <tr>
                                             <td class="plantmore-product-thumbnail"><a href="#"><img src="~/assets/images/other/01.jpg" alt=""></a></td>
                                             <td class="plantmore-product-name"><a href="#">@product.Product.ProductName</a></td>
-                                            <td class="plantmore-product-price"><span class="amount">@product.Product.NewPrice</span></td>
+                                            <td class="plantmore-product-price"><span class="amount">&#8358 @product.Product.NewPrice.ToString("N0")</span></td>
                                             <td class="plantmore-product-quantity">
                                                 <input name="@product.ProductId" value="@product.Quantity" type="number" onchange="updateQuantity(this)">
                                             </td>
-                                            <td class="product-subtotal"><span class="amount">@subtotal</span></td>
+                                            <td class="product-subtotal"><span class="amount">&#8358 @subtotal.ToString("N0")</span></td>
                                             <td class="plantmore-product-remove"><a href="/Cart/RemoveItem?productId=@product.ProductId"><i class="fa fa-times"></i></a></td>
                                         </tr>
                                     }
@@ -83,10 +80,10 @@
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
                                     <ul>
-                                        <li>Subtotal <span>@total</span></li>
-                                        <li>Total <span>@total</span></li>
+                                        <li>Subtotal <span>&#8358 @total.ToString("N0")</span></li>
+                                        <li>Total <span>&#8358 @total.ToString("N0")</span></li>
                                     </ul>
-                                    <a href="#" class="proceed-checkout-btn">Proceed to checkout</a>
+                                    <a href="Cart/CheckOut" class="proceed-checkout-btn">Proceed to checkout</a>
                                 </div>
                             </div>
                         </div>
