@@ -1,25 +1,91 @@
-﻿
+﻿@model ManageUserViewModel
+
 <h4>Manage User</h4>
 <div class="main--class">
-    <a asp-controller="Admin" asp-action="Add" class="btn btn-primary btn--class">AddProduct</a>
+    <a asp-controller="Admin" asp-action="Add" class="btn btn-primary btn--class">Add User</a>
 
     <table class="table--class">
-        <tr>
-            <th>First Name</th>
-            <th>Phone Number</th>
-            <th>Role</th>
-            <th>Email</th>
-            <th>Action</th>
-        </tr>
-        <tr>
-            <td>Medal Code</td>
-            <td>08068854788</td>
-            <td>Admin</td>
-            <td>utobonnyb@gmail.com</td>
-            <td>
-                <a href="#">Delete</a>|
-                |<a href="#">Edit</a>
-            </td>
-        </tr>
+                <tr>
+                    <th>First Name</th>
+                    <th>Phone Number</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+        @if(Model.TableData != null && Model.TableData.Any())
+        {
+            foreach(var user in Model.TableData)
+            {
+                <tr>
+                    <td>@user.FirstName @user.LastName</td>
+                    <td>08068854788</td>
+                    <td>@user.Email</td>
+                    <td>
+                        <a asp-action="ManageUser" asp-controller="Admin" asp-route-userId ="@user.Id">View</a>|
+                        |<a asp-action="DeleteUser" asp-controller="Admin" asp-route-userId="@user.Id" class="del-user">Delete</a>|
+                        |<a href="#">Edit</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <div>No records yet!</div>
+        }
     </table>
+
+    @if (Model.UserDetails != null )
+    {
+        <div class="detail--box">
+            <div class="detail--field">
+                <div class="inner--field">
+                    <img src="" />
+                    <div class="name--field">
+                        <p>
+                            <div>Full Name</div>
+                            <div>@Model.UserDetails.FirstName @Model.UserDetails.LastName</div>
+                        </p>
+                        <p>
+                            <div>Email</div>
+                            <div>@Model.UserDetails.Email</div>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="role--field">
+                <p>
+                    <div class="d-flex justify-content-between mx-3">
+                        <div>User's Roles</div>
+                        <div><a href="#" id="add-user-btn" class="btn btn-primary">Add New User Role</a></div>
+                    </div>
+                    <br />
+                    <div class="new-role-box hide--panel" id="new-user-role-panel">
+                        <form method="post" asp-action="ManageUser" asp-controller="Admin" asp-route-userId="@Model.UserDetails.Id">
+                            <input asp-for="RoleName" placeholder="Role Name" />
+                            <button type="submit" class="btn btnbtn-primary">Add</button>
+                        </form>
+                    </div>
+                    <br />
+                    <div>
+                        <ul style=" font-size:14px;">
+                            @foreach (var role in Model.UserDetails.Roles)
+                            {
+                                <li style="color:black; margin-top:-20px;">@role.ToUpper() &nbsp; &nbsp;
+                                    <a href = "#" style="color:wheat"> Edit </a>|
+                                    |<a href="#" style="color:wheat"> Delete </a>
+                                </li>
+                                            
+
+                            }
+                        </ul>
+                        
+                    </div>
+                </p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div> </div>
+    }
 </div>
+

@@ -27,7 +27,7 @@ namespace MyWatchShop.Data.Repository.Implementation
             return await _ctx.SaveChangesAsync();
         }
 
-        public async Task<int> RemoveRange<T>(List<T> entity) where T : class
+        public async Task<int> RemoveRange<T>(IList<T> entity) where T : class
         {
             _ctx.Set<T>().RemoveRange(entity);
             return await _ctx.SaveChangesAsync();

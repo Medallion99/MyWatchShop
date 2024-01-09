@@ -40,7 +40,7 @@ namespace MyWatchShop.Services.Implementation
         public async Task<int> AddItem(string productId, int qty = 0)
         {
             string userId = GetUserId();
-            
+
             using var transaction = _ctx.Database.BeginTransaction();
             try
             {
@@ -67,14 +67,14 @@ namespace MyWatchShop.Services.Implementation
                 }
                 else
                 {
-                    //var product = await _repository.GetById<Product>(pId); //Causing me a bug, Will fix later
+                    var product = await _repository.GetById<Product>(pId); //Causing me a bug, Will fix later
 
                     cartItem = new CartDetail
                     {
                         ProductId = productId,
                         Quantity = qty,
                         ShoppingCartId = cart.Id,
-                        //UnitPrice = product.NewPrice
+                        UnitPrice = product.NewPrice
                     };
                     await _repository.Add<CartDetail>(cartItem);
                 }
@@ -152,16 +152,20 @@ namespace MyWatchShop.Services.Implementation
             }
             //var cart = await GetCart(userId);
 
-            var result = await _ctx.ShoppingCarts.Join(_ctx.CartDetails, cart => cart.Id, cartDetail => cartDetail.ShoppingCartId, (cart, cartDetail) => new
+            //var result = await _ctx.ShoppingCarts.Join(_ctx.CartDetails, cart => cart.Id, cartDetail => cartDetail.ShoppingCartId, (cart, cartDetail) => new
+            //{
+            //    cart.Id
+            //}).ToListAsync();
+
+            //return result.Count;
+
+            var getUserCount = await GetUserCart();
+            if(getUserCount == null)
             {
-                cart.Id
-            }).ToListAsync();
+                return 0;
+            }
 
-            return result.Count;
-
-            //var getUserCount = await GetUserCart();
-
-            //return getUserCount.CartDetails.Count;
+            return getUserCount.CartDetails.Count;
         }
 
         public async Task<int> UpdateCartQty(string productId, int qty)
@@ -196,6 +200,55 @@ namespace MyWatchShop.Services.Implementation
             }
             _ctx.SaveChanges();
             return cartDetail.Quantity;
+        }
+
+        public async Task<bool> CheckOut()
+        {
+            using var transaction = _ctx.Database.BeginTransaction();
+            try
+            {
+                //Moving data from cartdetail to order and order detail, then we will remove cart detail
+                var userId = GetUserId();
+                if (string.IsNullOrEmpty(userId))
+                    throw new Exception("User is not found");
+
+                var cart = await GetCart(userId);
+                if (cart == null)
+                    throw new Exception("No Cart Item Found");
+
+                var cartDetails = _ctx.CartDetails.Where(s => s.ShoppingCartId == cart.Id).ToList();
+
+                if (cartDetails.Count == 0)
+                {
+                    throw new Exception("Cart is Empty");
+                }
+
+                var order = new Order
+                {
+                    AppUserId = userId,
+                    OrderStatusId = "1" //Pending
+                };
+                await _repository.Add<Order>(order);
+
+                foreach (var item in cartDetails)
+                {
+                    var orderDetail = new OrderDetail
+                    {
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity,
+                        OrderId = order.Id,
+                        UnitPrice = item.UnitPrice,
+                    };
+                    await _repository.Add<OrderDetail>(orderDetail);
+                }
+                await _repository.RemoveRange<CartDetail>(cartDetails);
+                transaction.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

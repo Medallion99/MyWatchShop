@@ -12,5 +12,6 @@ namespace MyWatchShop.Services.Interfaces
         Task<ShoppingCart> GetCart(string userId);
         string GetUserId();
         Task<int> UpdateCartQty(string productId, int qty);
+        Task<bool> CheckOut();
     }
 }

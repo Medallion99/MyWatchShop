@@ -10,5 +10,7 @@ namespace MyWatchShop.Services.Interfaces
         public Task<IList<Product>> GetAllProduct();
         public Task<Product> GetProduct(string id);
         public Task<int> DeleteProduct(string id);
+        Task<ManageUserViewModel> GetAllUsers(ManageUserViewModel model, string userId);
+        Task<bool> DeleteUser(string userId);
     }
 }

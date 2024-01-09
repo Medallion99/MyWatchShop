@@ -1,4 +1,6 @@
-﻿using MyWatchShop.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using MyWatchShop.Data;
 using MyWatchShop.Data.Repository.Interface;
 using MyWatchShop.Models.Entity;
 using MyWatchShop.Services.Interfaces;
@@ -8,63 +10,66 @@ namespace MyWatchShop.Services.Implementation
     public class OrderService : IOrderService
     {
         private readonly IRepository _repository;
-        private readonly ICartService _cartService;
         private readonly ShopDbContext _ctx;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly ICartService _cartService;
 
-        public OrderService(IRepository repository, ICartService cartService, ShopDbContext ctx)
+        public OrderService(IRepository repository, ShopDbContext ctx, UserManager<AppUser> userManager, ICartService cartService)
         {
             this._repository = repository;
-            this._cartService = cartService;
             this._ctx = ctx;
+            this._userManager = userManager;
+            this._cartService = cartService;
         }
 
-        public async Task<bool> CheckOut()
+        
+
+        public async Task<IList<Order>> UserOrders(string userId)
         {
-            using var transaction = _ctx.Database.BeginTransaction();
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            var orders = await _ctx.Orders
+                            .Include(s => s.OrderStatus)
+                            .Include(s => s.OrderDetails)
+                            .ThenInclude(s => s.Product)
+                            .Where(a => a.AppUserId == userId)
+                            .ToListAsync();
+            return orders;
+        }
+
+        public async Task<bool> PlaceOrder()
+        {
             try
             {
-                //Moving data from cartdetail to order and order detail, then we will remove cart detail
                 var userId = _cartService.GetUserId();
-                if (string.IsNullOrEmpty(userId))
-                    throw new Exception("User is not found");
 
-                var cart = await _cartService.GetCart(userId);
-                if (cart == null)
-                    throw new Exception("No Cart Item Found");
+                var userOrder = await _ctx.Orders.FirstOrDefaultAsync(s => s.Id == userId);
 
-                var cartDetails = _ctx.CartDetails.Where(s => s.ShoppingCartId == cart.Id).ToList();
-
-                if (cartDetails.Count == 0)
+                var orders = await _ctx.OrderDetails.Where(s => s.OrderId == userOrder.Id).ToListAsync();
+                //var orders = await _repository.GetAll<OrderDetail>();
+                if (orders == null)
                 {
-                    throw new Exception("Cart is Empty");
+                    throw new Exception("No items found");
                 }
-
-                var order = new Order
+                var removeOrder = await _repository.RemoveRange<OrderDetail>(orders);
+                
+                if(removeOrder != null)
                 {
-                    AppUserId = userId,
-                    OrderStatusId = "1"
-                };
-                await _repository.Add<Order>(order);
-
-                foreach (var item in cartDetails)
-                {
-                    var orderDetail = new OrderDetail
-                    {
-                        ProductId = item.ProductId,
-                        Quantity = item.Quantity,
-                        OrderId = order.Id,
-                        UnitPrice = item.UnitPrice,
-                    };
-                    await _repository.Add<OrderDetail>(orderDetail);
+                    return true;
                 }
-                await _repository.RemoveRange<CartDetail>(cartDetails);
-                transaction.Commit();
-                return true;
+                return false;
+
             }
             catch (Exception ex)
             {
-                return false;
+                throw new Exception(ex.Message);
             }
+
+
         }
     }
 }

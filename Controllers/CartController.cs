@@ -16,7 +16,7 @@ namespace MyWatchShop.Controllers
         }
         //[HttpGet]
         [Authorize]
-        public async Task<IActionResult> AddItem(string productId ="", int qty = 1, int redirect = 0)
+        public async Task<IActionResult> AddItem(string productId, int qty = 1, int redirect = 0)
         {
             var cartCount = await _cartService.AddItem(productId, qty);
             if (redirect == 0)
@@ -50,8 +50,8 @@ namespace MyWatchShop.Controllers
         }
         public async Task<IActionResult> CheckOut()
         {
-            bool checkOut = await _orderService.CheckOut();
-            if (!checkOut)
+            var checkOut = await _cartService.CheckOut();
+            if (checkOut == null)
             {
                 throw new Exception("Internal Error Occured");
             }

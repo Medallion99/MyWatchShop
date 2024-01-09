@@ -46,7 +46,7 @@
                                         total += product.Product.NewPrice * product.Quantity;
                                         var subtotal = product.Product.NewPrice * product.Quantity;
                                         <tr>
-                                            <td class="plantmore-product-thumbnail"><a href="#"><img src="~/assets/images/other/01.jpg" alt=""></a></td>
+                                            <td class="plantmore-product-thumbnail"><a href="#"><img src="@product.Product.ImageUrl" alt="" style="width:100px; height:100px;"></a></td>
                                             <td class="plantmore-product-name"><a href="#">@product.Product.ProductName</a></td>
                                             <td class="plantmore-product-price"><span class="amount">&#8358 @product.Product.NewPrice.ToString("N0")</span></td>
                                             <td class="plantmore-product-quantity">
@@ -83,7 +83,7 @@
                                         <li>Subtotal <span>&#8358 @total.ToString("N0")</span></li>
                                         <li>Total <span>&#8358 @total.ToString("N0")</span></li>
                                     </ul>
-                                    <a href="Cart/CheckOut" class="proceed-checkout-btn">Proceed to checkout</a>
+                                    <a asp-action="CheckOut" asp-controller="Cart" class="proceed-checkout-btn">Proceed to checkout</a>
                                 </div>
                             </div>
                         </div>

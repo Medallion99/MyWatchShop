@@ -215,5 +215,10 @@ Looks like you forgot your Password. Please click the link <a href='{link}'>Here
             }
             return View(model);
         }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

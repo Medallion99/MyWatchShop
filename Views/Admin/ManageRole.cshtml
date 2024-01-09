@@ -1,20 +1,36 @@
-﻿<h4>Manage Role</h4>
-<div class="main--class">
-    <a asp-controller="Admin" asp-action="Add" class="btn btn-primary btn--class">AddProduct</a>
+﻿@model ManageRoleViewModel
 
-    <table class="table--class">
+<h4>Manage Role</h4>
+    <div style="margin-bottom:80px; color:yellowgreen;">
+        <a class="btn btn-primary btn--class" id="add-role-btn" style="color:yellowgreen;">Add New Role</a>
+    </div>
+
+<div class="main--class">
+
+    <table class="table--class" style="margin-left:-100px; width:100%">
         <tr>
-            <th>User Name</th>
+            <th>Role Id</th>
             <th>Role Name</th>
             <th>Action</th>
         </tr>
-        <tr>
-            <td>Medal Code</td>
-            <td>Admin</td>
-            <td>
-                <a href="#">Delete</a>|
-                |<a href="#">Edit</a>
-            </td>
-        </tr>
+        @foreach(var role in Model.RolesToReturn)
+        {
+            <tr>
+                <td>@role.Id</td>
+                <td>@role.Name</td>
+                <td>
+                    <a asp-action="DeleteRole" asp-controller="Admin" asp-route-roleId="@role.Id" class="del-user">Delete</a>|
+                    |<a href="#">Edit</a>
+                </td>
+            </tr>
+        }
     </table>
+
+    <div class="new-role-box hide--panel" id="show-box">
+        <form method="post" asp-action="ManageRole" asp-controller="Admin">
+            <input asp-for="RoleName" placeholder="Role Name" />
+            <button type="submit" class="btn btnbtn-primary">Add</button>
+        </form>
+    </div>
 </div>
+
