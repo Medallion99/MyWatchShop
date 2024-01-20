@@ -18,7 +18,7 @@ namespace MyWatchShop.Controllers
             this._cartService = cartService;
         }
 
-        public async Task<IActionResult> BestSeller()
+        public async Task<IActionResult> Index()
         {
             var viewToReturn = await _productService.GetAllProduct();
             var homeView = new HomeViewModel();
@@ -46,11 +46,6 @@ namespace MyWatchShop.Controllers
             }
 
             return View(homeView);
-        }
-
-        public IActionResult Index()
-        {
-            return View ();
         }
 
         public IActionResult Privacy()

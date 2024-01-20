@@ -88,7 +88,7 @@ Please click the link <a href='{link}'>Here</a> to confirm your account's email"
                 if (confirmedEmailResult.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("BestSeller", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 foreach (var err in confirmedEmailResult.Errors)
                 {
@@ -127,7 +127,7 @@ Please click the link <a href='{link}'>Here</a> to confirm your account's email"
                             {
                                 return LocalRedirect(returnUrl);
                             }
-                            return RedirectToAction("BestSeller", "Home");
+                            return RedirectToAction("Index", "Home");
                         }
                         else
                         {
@@ -147,7 +147,7 @@ Please click the link <a href='{link}'>Here</a> to confirm your account's email"
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("BestSeller", "Home");   
+            return RedirectToAction("Index", "Home");   
         }
         
 

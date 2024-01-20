@@ -51,7 +51,7 @@ namespace MyWatchShop.Controllers
         public async Task<IActionResult> Add(AddProductViewModel model)
         {
             var result = await _adminServices.AddProduct(model);
-            return RedirectToAction("BestSeller", "Home");
+            return RedirectToAction("Index", "Home");
         }
         [AcceptVerbs("Post", "Get")]
         public async Task<IActionResult> ManageUser(ManageUserViewModel model, string userId)

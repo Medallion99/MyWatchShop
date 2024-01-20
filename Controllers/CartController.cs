@@ -21,7 +21,7 @@ namespace MyWatchShop.Controllers
             var cartCount = await _cartService.AddItem(productId, qty);
             if (redirect == 0)
             {
-                return RedirectToAction("BestSeller", "Home");
+                return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("GetUserCart");
         }
@@ -55,7 +55,7 @@ namespace MyWatchShop.Controllers
             {
                 throw new Exception("Internal Error Occured");
             }
-            return RedirectToAction("BestSeller", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> UpdateQuantity (string productId, int qty)

@@ -58,7 +58,7 @@ namespace MyWatchShop.Controllers
             {
                 return View("UserOrders");
             }
-            return RedirectToAction("BestSeller", "Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
