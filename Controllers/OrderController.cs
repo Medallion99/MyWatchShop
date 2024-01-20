@@ -40,18 +40,25 @@ namespace MyWatchShop.Controllers
             //var userOrder = await _ctx.Orders.FirstOrDefaultAsync(s => s.Id == userId);
 
             //var orders = await _ctx.OrderDetails.Where(s => s.OrderId == userOrder.Id).ToListAsync();
-            var orders = await _repository.GetAll<OrderDetail>();
-            if (orders == null)
-            {
-                throw new Exception("No items found");
-            }
-            var removeOrder = await _repository.RemoveRange<OrderDetail>(orders);
+            //var orders = await _repository.GetAll<OrderDetail>();
+            //if (orders == null)
+            //{
+            //    throw new Exception("No items found");
+            //}
+            //var removeOrder = await _repository.RemoveRange<OrderDetail>(orders);
 
-            if (removeOrder != null)
+            //if (removeOrder != null)
+            //{
+            //    return View("UserOrders");
+            //}
+            //return View("UserOrders");
+            var producttoreturn = await _orderService.PlaceOrder();
+
+            if(producttoreturn != null)
             {
                 return View("UserOrders");
             }
-            return View("UserOrders");
+            return RedirectToAction("BestSeller", "Home");
         }
     }
 }

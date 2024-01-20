@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyWatchShop.Data;
 using MyWatchShop.Data.Repository.Interface;
 using MyWatchShop.Models.Entity;

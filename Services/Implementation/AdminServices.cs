@@ -17,28 +17,32 @@ namespace MyWatchShop.Services.Implementation
         private readonly IRepository _repository;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUploadService _uploadService;
 
         //private readonly RoleManager<AppUser> _roleManager;
 
-        public AdminServices(ShopDbContext ctx, IRepository repository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AdminServices(ShopDbContext ctx, IRepository repository, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IUploadService uploadService)
         {
-            this._ctx = ctx;
-            this._repository = repository;
-            this._userManager = userManager;
-            this._roleManager = roleManager;
+            _ctx = ctx;
+            _repository = repository;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _uploadService = uploadService;
             //this._roleManager = roleManager;
         }
         public async Task<int> AddProduct(AddProductViewModel model)
         {
             try
             {
-                var product = new Product()
+                var photoUpload = await _uploadService.ImageUpload(model.photoFile, "");
+                var product = new Product
                 {
                     ProductName = model.ProductName,
                     ProductDescription = model.ProductDescription,
                     OldPrice = model.OldPrice,
                     NewPrice = model.NewPrice,
-                    ImageUrl = model.ImageUrl,
+                    ImageUrl = photoUpload["Url"],
+                    Stars = model.Stars,
                 };
                 var result = await _repository.Add<Product>(product);
                 return result;

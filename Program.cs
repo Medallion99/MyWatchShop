@@ -6,6 +6,7 @@ using MyWatchShop.Data.Repository.Interface;
 using MyWatchShop.Models.Entity;
 using MyWatchShop.Services.Implementation;
 using MyWatchShop.Services.Interfaces;
+using MyWatchShop.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,8 @@ builder.Services.AddScoped<IAdminServices, AdminServices >();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+builder.Services.AddScoped<IUploadService, UploadService>();
 
 var app = builder.Build();
 
@@ -35,7 +38,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseStatusCodePagesWithReExecute("/Error/{0}");
+//app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

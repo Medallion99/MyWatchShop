@@ -7,6 +7,8 @@
         public string ProductDescription { get; set; } = string.Empty;
         public decimal OldPrice { get; set; }
         public decimal NewPrice { get; set; }
+        public IFormFile photoFile { get; set; }
+        public string folderName { get; set; }
         public string ImageUrl { get; set; } = string.Empty;
         public int Stars { get; set; }
 

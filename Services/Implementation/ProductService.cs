@@ -3,6 +3,7 @@ using MyWatchShop.Data.Repository.Interface;
 using MyWatchShop.Models.ViewModels;
 using MyWatchShop.Models.Entity;
 using MyWatchShop.Services.Interfaces;
+using AutoMapper;
 
 namespace MyWatchShop.Services.Implementation
 {
@@ -10,26 +11,31 @@ namespace MyWatchShop.Services.Implementation
     {
         private readonly IRepository _repository;
         private readonly ShopDbContext _ctx;
+        private readonly IMapper _mapper;
+        private readonly IUploadService _uploadService;
 
-        public ProductService(IRepository repository, ShopDbContext ctx)
+        public ProductService(IRepository repository, ShopDbContext ctx, IMapper mapper, IUploadService uploadService)
         {
-            this._repository = repository;
-            this._ctx = ctx;
+            _repository = repository;
+            _ctx = ctx;
+            _mapper = mapper;
+            _uploadService = uploadService;
         }
-        public Task<int> AddProduct(AddProductViewModel model)
+        public async Task<int> AddProduct(AddProductViewModel model)
         {
-
+            //var product = _mapper.Map<Product>(model);
+            var photoUpload = await _uploadService.ImageUpload(model.photoFile, "");
             var product = new Product
             {
                 ProductName = model.ProductName,
                 ProductDescription = model.ProductDescription,
                 OldPrice = model.OldPrice,
                 NewPrice = model.NewPrice,
-                ImageUrl = model.ImageUrl,
+                ImageUrl = photoUpload["Url"],
                 Stars = model.Stars,
             };
 
-            var addProduct = _repository.Add(product);
+            var addProduct = await _repository.Add<Product>(product);
 
             if (addProduct == null)
             {

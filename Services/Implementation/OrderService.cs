@@ -49,8 +49,8 @@ namespace MyWatchShop.Services.Implementation
 
                 var userOrder = await _ctx.Orders.FirstOrDefaultAsync(s => s.Id == userId);
 
-                var orders = await _ctx.OrderDetails.Where(s => s.OrderId == userOrder.Id).ToListAsync();
-                //var orders = await _repository.GetAll<OrderDetail>();
+                //var orders = await _ctx.OrderDetails.Where(s => s.OrderId == userOrder.Id).ToListAsync();
+                var orders = await _repository.GetAll<OrderDetail>();
                 if (orders == null)
                 {
                     throw new Exception("No items found");

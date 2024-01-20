@@ -10,7 +10,7 @@ using MyWatchShop.Services.Interfaces;
 
 namespace MyWatchShop.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize]
 
     public class AdminController : Controller
     {

@@ -1,6 +1,6 @@
 ﻿@model AddProductViewModel
 
-<form method="post" asp-controller="Admin" asp-action="Add">
+<form method="post" asp-controller="Admin" asp-action="Add" enctype="multipart/form-data">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
             <h2 class="text-primary">Create Product</h2>
@@ -23,9 +23,13 @@
             <input asp-for="NewPrice" type="text" class="form-control" />
         </div>
         <div class="mb-3">
+            <label asp-for="photoFile" >upload-Image</label>
+            <input asp-for="photoFile" type="file" accept="image/jpg" class="form-control" />
+        </div>
+@*         <div class="mb-3">
             <label asp-for="ImageUrl">Image Url</label>
             <input asp-for="ImageUrl" type="text" class="form-control" />
-        </div>
+        </div> *@
         <div class="mb-3">
             <label asp-for="Stars">Rating</label>
             <input type="number" asp-for="Stars" class="form-control" />
