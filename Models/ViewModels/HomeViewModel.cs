@@ -2,7 +2,7 @@
 {
     public class HomeViewModel
     {
-        public Showcase BestSeller {  get; set; }
+        public Showcase BestSeller {  get; set; } = new Showcase();
         public Showcase AllProduct { get; set; }
         public IList<GetUserCartViewModel> GetUserCartViewModel { get; set; } = new List<GetUserCartViewModel>();
     }

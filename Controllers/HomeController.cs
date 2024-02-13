@@ -23,11 +23,11 @@ namespace MyWatchShop.Controllers
             var viewToReturn = await _productService.GetAllProduct();
             var homeView = new HomeViewModel();
 
-            homeView.BestSeller = new Showcase
-            {
-                Product = 4,
-                ProductList = new List<ProductSummarizedViewModel>()
-            };
+            //homeView.BestSeller = new Showcase
+            //{
+            //    Product = 4,
+            //    ProductList = new List<ProductSummarizedViewModel>()
+            //};
 
             foreach (var product in viewToReturn)
             {

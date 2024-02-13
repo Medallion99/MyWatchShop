@@ -93,14 +93,16 @@
                                             var roles = roleManager.Roles;
                                             var user = await _usermanager.GetUserAsync(User);
                                             var getRole = await _usermanager.GetRolesAsync(user);
+                                            var userLoggedIn = _usermanager.GetUserAsync(User).Result;
+
                                             @if (getRole.Any(s => s.ToLower().Equals("admin")))
                                             {
-                                                var userLoggedIn = _usermanager.GetUserAsync(User).Result;
 
                                                 <li><a asp-controller="Admin" asp-action="WelcomePage">Admin Dashboard</a></li>
 
-                                                <li style="color:greenyellow;">Welcome! @userLoggedIn.FirstName </li>
                                             }
+                                            <li style="color:greenyellow;">Welcome! @userLoggedIn.FirstName </li>
+
                                         }
                                     </ul>
                                 </div>
